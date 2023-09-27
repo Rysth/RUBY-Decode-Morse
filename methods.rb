@@ -38,6 +38,28 @@ $morse_dict = {
   "0" => "-----"
 }
 
+=begin 
+  Description:
+    -morseCode: A string representation of a morse code value.
+    -pattern: Pattern used to split the words/message by the spaces added to them.
+    -decodeMethod: Is the method used to reuse the decode_char and decode_word methods.
+=end
+def decode_loop(morseCode, pattern, decodeMethod)
+  decodedMessage = ""
+  stringArray = morseCode.split(pattern)
+  stringArray.each do |n|
+    if pattern 
+      decodedMessage.concat(decodeMethod.(n).concat(" "))
+    else
+      decodedMessage.concat(decodeMethod.(n))
+    end
+  end
+  decodedMessage
+end
+
+=begin 
+  Description: It returns a letter in UPPERCASE by passing a morse code word to it.
+=end
 def decode_char(morse)
   uppercaseLetter = ""
 
@@ -52,26 +74,23 @@ end
 
 puts decode_char(".-")
 
+
+=begin 
+  Description: Calls the decode_loop method to return a whole WORD by using the decode_char method created before.
+=end
 def decode_word(word)
-  decodedWord = ""
-  letterArray = word.split
-  letterArray.each do |s|
-    decodedWord.concat(decode_char(s))
-  end
-  decodedWord.concat(" ")
+  decode_loop(word, nil, method(:decode_char))
 end
 
 puts decode_word("-- -.--")
 
-
+=begin 
+  Description: Calls the decode_loop method to return a whole MESSAGE by using the decode_char method created before.
+=end
 def decode(string)
-  decodedMessage = ""
-  wordsArray = string.split(/   /)
-  wordsArray.each do |word|
-    decodedWord = decode_word(word)
-    decodedMessage.concat(decodedWord)
-  end
-  decodedMessage
+  decode_loop(string, /   /, method(:decode_word))
 end
 
 puts decode("-- -.--   -. .- -- .")
+
+puts decode(".-   -... --- -..-   ..-. ..- .-.. .-..   --- ..-.   .-. ..- -... .. . ...")
