@@ -50,4 +50,14 @@ def decode_char(morse)
    uppercaseLetter
 end
 
+def decode_word(word)
+  decodedWord = ""
+  letterArray = word.split
+  letterArray.each do |s|
+    decodedWord.concat(decode_char(s))
+  end
+  decodedWord
+end
+
 puts decode_char(".-")
+puts decode_word("-- -.--")
